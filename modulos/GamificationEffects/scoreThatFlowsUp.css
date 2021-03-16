@@ -1,0 +1,43 @@
+    .scoreThatFlowsUp {
+        display: block;
+        position: absolute;
+        font-size: 30px;
+        font-family: 'Press Start 2P', consolas, monospace;
+        text-align: center;
+        pointer-events: none;
+        color: rgb(0, 255, 0);
+        text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
+        animation-duration: 1.5s;
+        animation-name: flowUp;
+        animation-iteration-count: 1;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+     
+
+    }
+
+    @keyframes flowUp {
+        0% {
+            font-size: 0px;
+            transform: translate(-50%, 0px);
+            opacity: 0;
+        }
+
+        10% {
+            font-size: 30px;
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translate(-50%, -150px);
+            opacity: 0;
+        }
+    }

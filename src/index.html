@@ -77,7 +77,7 @@
         z-index: -500;
     }
 
-    .scoreThatGoesUp {
+    .scoreThatFlowsUp {
         display: block;
         position: absolute;
         font-size: 30px;
@@ -124,27 +124,24 @@
 
 <body>
     <form>
-        <button class="" type="button" onclick="InstantiateScoreGoesUp(event)">Get Points</button>
+        <button class="" type="button" onclick="InstantiateScoreThatFlowsUp(event, 150)">Get Points</button>
     </form>
     <div style="height: 200px;">
     </div>
 </body>
 <script>
 
-
-    function InstantiateScoreGoesUp(event) {
+    function InstantiateScoreThatFlowsUp(event, value) {
         var rect = event.target.getBoundingClientRect();
         console.log(rect);
         var div = document.createElement('div');
-        div.innerHTML = '+50';
-        div.classList.add("scoreThatGoesUp");
+        div.innerHTML = (value>0?'+':'')+value;
+        div.classList.add("scoreThatFlowsUp");
         div.style.left = (rect.x + rect.width / 2) + "px";
         div.style.top = (rect.y + rect.height / 2) + "px";
         document.body.appendChild(div);
     }
-    function Instantiate() {
 
-    }
 </script>
 <script>
 
