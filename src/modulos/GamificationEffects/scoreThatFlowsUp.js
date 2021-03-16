@@ -11,6 +11,10 @@ export function InstantiateScoreThatFlowsUp(event, value) {
         div.style.left = (rect.x + rect.width / 2) + "px";
         div.style.top = (rect.y + rect.height / 2) + "px";
         document.body.appendChild(div);
+
+        setTimeout(() => {
+            div.remove();
+        }, 5000);
 }
 
 //Just import in you project, and use directly on javascript or in your element ex <button onclick='InstantiateScoreThatFlowsUp(event, 150)'>Click Here</button>
