@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+    <title>Gamification Effects</title>
+</head>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+    body {
+        background-color: black;
+
+    }
+
+    button {
+        padding: 15px 25px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: #4e3db1;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 1px 9px #34277e;
+    }
+
+    button:hover {
+        background-color: #4e3db1
+    }
+
+    button:active {
+        background-color: #4e3db1;
+        box-shadow: 0 5px #34277e;
+        transform: translateY(4px);
+    }
+
+    .center {
+        display: block;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    .nuvem {
+        position: absolute;
+        background-color: red;
+        top: 0px;
+        left: 0px;
+    }
+
+    .background {
+        position: absolute;
+        top: 5px;
+        background-color: grey;
+        width: 100%;
+        height: 500px;
+        display: block;
+        z-index: -200;
+    }
+
+    .buttonTest {
+        transform: translateX(200px);
+    }
+
+    #myCanvas {
+        display: block;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        pointer-events: none;
+    }
+
+    .hiden {
+        display: none;
+        z-index: -500;
+    }
+
+    .scoreThatGoesUp {
+        display: block;
+        position: absolute;
+        font-size: 30px;
+        font-family: 'Press Start 2P', consolas, monospace;
+        text-align: center;
+        pointer-events: none;
+        color: rgb(0, 255, 0);
+        text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
+        animation-duration: 1.5s;
+        animation-name: flowUp;
+        animation-iteration-count: 1;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+     
+
+    }
+
+    @keyframes flowUp {
+        0% {
+            font-size: 0px;
+            transform: translate(-50%, 0px);
+            opacity: 0;
+        }
+
+        10% {
+            font-size: 30px;
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translate(-50%, -150px);
+            opacity: 0;
+        }
+    }
+</style>
+
+<body>
+    <form>
+        <button class="" type="button" onclick="InstantiateScoreGoesUp(event)">Get Points</button>
+    </form>
+    <div style="height: 200px;">
+    </div>
+</body>
+<script>
+
+
+    function InstantiateScoreGoesUp(event) {
+        var rect = event.target.getBoundingClientRect();
+        console.log(rect);
+        var div = document.createElement('div');
+        div.innerHTML = '+50';
+        div.classList.add("scoreThatGoesUp");
+        div.style.left = (rect.x + rect.width / 2) + "px";
+        div.style.top = (rect.y + rect.height / 2) + "px";
+        document.body.appendChild(div);
+    }
+    function Instantiate() {
+
+    }
+</script>
+<script>
+
+</script>
+
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "gamification-effects",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "webpack",
+    "serve": "webpack serve"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.26.1",
+    "webpack-cli": "^4.5.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.11.2"
+  }
+}
