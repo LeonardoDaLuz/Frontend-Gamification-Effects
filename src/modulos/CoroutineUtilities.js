@@ -17,6 +17,7 @@ function* WaitForSeconds(tempo) {
 
 export function StartCoroutine(coroutine) {
     var iterator = coroutine();
+    iterator.next();
     var refreshIntervalId = setInterval(function () {
         iterator.next();
     }, 16);

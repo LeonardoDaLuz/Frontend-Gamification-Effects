@@ -8,8 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
     body {
-        background-color: grey;
-
+        background-color: black;
+        margin-top: 500px;
+        margin-left: 100px;
     }
 
     button {
@@ -98,13 +99,35 @@
         border-width: 1px;
         border-style: solid;
     }
+
+    .buttonPuff {
+        background-color: #3db169;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 1px 9px #387e27;
+        top: 300px;
+
+    }
+    .buttonPuff:active {
+        background-color: #3db147;
+        box-shadow: 0 5px #2a7e27;
+        transform: translateY(4px);
+    }
+
+    
+    .buttonPuff:hover {
+        background-color: #3db13d
+    }
 </style>
 
 <body>
     <form>
         <button class="" type="button" onclick="InstantiateScoreThatFlowsUp(event, 150)">Get Points</button>
+        <button type="button" class="buttonPuff" onclick="puff(event)">Get Puff</button>
+        <button type="button" class="buttonPuff" onclick="puff(event)">Get Puff</button>
+        <button type="button" class="buttonPuff" onclick="puff(event)">Get Puff</button>
     </form>
-    <canvas id="puffCanvas" width="500" height="500" style="border: 1px solid white;">TesteDeCAnvas</canvas>
+
 </body>
 
 </html>
