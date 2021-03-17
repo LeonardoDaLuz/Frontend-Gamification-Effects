@@ -111,57 +111,12 @@
 </body>
 <script>
     function teste() {
-        var canvas = document.getElementById("puffCanvas");
-        var context = canvas.getContext("2d");
-        var img2 = new Image();
-        img2.src = 'http://localhost:8080/imgs/cloud.png';
-        //  context.drawImage(img2, 100, 100, 100, 100);
 
-
-        var gameObjects = [];
-
-        var puffObj = Instantiate(img2, 100, 100, 100, 100, null);
-
-        function Instantiate(img, positionX, positionY, width, height, component) {
-
-            var gameObject = {
-                img: img,
-                transform: {
-                    position: {
-                        x: positionX,
-                        y: positionY
-                    },
-                    scale: {
-                        x: width,
-                        y: height
-                    }
-                },
-                behaviourComponentScript: component
-            }
-
-            gameObjects.push(gameObject);
-
-            return gameObject;
-        }
-
-        function updateAllGameObjects() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            for (i = 0; i < gameObjects.length; i++) {
-                var obj = gameObjects[i];
-                if (obj.behaviourComponentScript != null)
-                    behaviourComponentScript();
-
-                context.drawImage(obj.img, obj.transform.position.x, obj.transform.position.y, obj.transform.scale.x, obj.transform.scale.y);
-            }
-        }
-
-        setInterval(() => {
-            puffObj.transform.position.x+=1;
-            updateAllGameObjects();
-        }, 16);
+        window.startEngine();
+ 
     }
 
-    setTimeout(teste, 1000);
+    setTimeout(teste, 500);
 </script>
 <script>
 
