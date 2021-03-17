@@ -1,3 +1,5 @@
+import { StartCoroutine } from "../CoroutineUtilities";
+
 class GameObject {
     constructor(img, positionX, positionY, width, height, component) {
         this.img = img;
@@ -15,7 +17,7 @@ class GameObject {
             opacity: 1
         }
         this.component = component;
-        this.component._transform = this.transform;
+        this.component.transform = this.transform;
         this.rigidbody = new Rigidbody();
         this.rigidbody.transform = this.transform;
         this.component.rigidbody = this.rigidbody;
@@ -121,7 +123,6 @@ export class SimpleCanvasGameEngine {
         this._lastUpdateTime = now;
     }
 }
-
 
 
 

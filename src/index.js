@@ -2,11 +2,12 @@ import { InstantiateScoreThatFlowsUp } from './modulos/GamificationEffects/score
 
 import { puff } from './modulos/GamificationEffects/puff';
 
-import { SimpleCanvasGameEngine, MonoBehaviour} from './modulos/GamificationEffects/SimpleCanvasGameEngine';
+import { SimpleCanvasGameEngine, MonoBehaviour } from './modulos/GamificationEffects/SimpleCanvasGameEngine';
 
+import { StartCoroutine } from './modulos/CoroutineUtilities';
 
 window.startEngine = function () {
-    var engine = new SimpleCanvasGameEngine("puffCanvas",60);
+    var engine = new SimpleCanvasGameEngine("puffCanvas", 60);
 
     var img2 = new Image();
     img2.src = 'http://localhost:8080/imgs/cloud.png';
@@ -18,39 +19,32 @@ window.startEngine = function () {
 
 
 class Nuvem {
-    Start() {   
+    Start() {
         console.log("Opa fui instanciado");
         console.log(this.rigidbody);
-        this.rigidbody.velocity.x=5;
+        this.rigidbody.velocity.x = 5;
+        this.transform.scale.x=0;
+        function* test() {            
+            var time = 0;       
+
+            while (time < 1) {
+                time+=0.016;
+                this.transform.scale.x=Mathf.lerp(0, 100, time);
+                this.transform.scale.y=Mathf.lerp(0, 100, time);
+                console.log('Hello!' + time);
+               yield time;
+            }
+        }
+
+        StartCoroutine(test.bind(this));
+
     }
 
-    Update() {  
-       this.rigidbody.velocity.y=-10;  
+    Update() {
+        //   this.rigidbody.velocity.y=-10;  
     }
+
+
 }
 
 
-function* test() {
-    console.log('Hello!');
-    yield* contador(2);
-    console.log('First I got: ' + x);
-    var y = yield;
-    console.log('Then I got: ' + y);
-}
-
-class espera {
-    constructor(){
-        return typeof(yield);
-    }
-}
-
-function* contador(tempo) {
-    var expireTime = Date.now() + tempo*1000;
-    while(Date.now()<expireTime){
-        yield;
-    }
-
-}
-var tester = test();
-tester.next();
-tester.next();
