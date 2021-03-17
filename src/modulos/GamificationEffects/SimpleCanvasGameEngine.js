@@ -1,27 +1,35 @@
 import { StartCoroutine } from "../CoroutineUtilities";
 
 class GameObject {
-    constructor(img, positionX, positionY, width, height, component) {
+    constructor(img, component, positionX, positionY, width=100, height=100, scaleX=1, scaleY=1, pivotX=0.5, pivotY=0.5) {
         this.img = img;
         this.transform = {
             position: {
                 x: positionX,
                 y: positionY
             },
+            width: width,
+            height: height,
             scale: {
-                y: height,
-                x: width
+                x: scaleX,
+                y: scaleY
+            },
+            pivot: {
+                x: pivotX,
+                y: pivotY
             }
         }
         this.renderer = {
             opacity: 1
         }
+
         this.component = component;
         this.component.transform = this.transform;
         this.rigidbody = new Rigidbody();
         this.rigidbody.transform = this.transform;
+        this.component.gameObject = this;
         this.component.rigidbody = this.rigidbody;
-        console.log(this.component);
+  
     }
 
 }
@@ -29,7 +37,7 @@ class GameObject {
 export class MonoBehaviour {
 
     Start() {
-        console.log("Opa fui instanciado");
+
     }
 
     Update() {
@@ -44,16 +52,21 @@ class Rigidbody {
             x: 0,
             y: 0
         }
-        this.deceleration = 0.5;
+        this.deceleration = 2;
     }
 
 
     Update() {
-        // console.log(window.deltaTime);
-        this.transform.position.x += this.velocity.x;
-        this.transform.position.y += this.velocity.y;
-        this.velocity.x = this.lerp(this.velocity.x, 0, 0.1);
-        this.velocity.y = this.lerp(this.velocity.y, 0, 0.1);
+
+        if(Number.isNaN(this.velocity.x))
+            this.velocity.x=0;
+        if(Number.isNaN(this.velocity.y))
+            this.velocity.y=0;
+
+        this.transform.position.x += this.velocity.x*window.deltaTime;
+        this.transform.position.y += this.velocity.y*window.deltaTime;
+        this.velocity.x = this.lerp(this.velocity.x, 0, window.deltaTime*this.deceleration);
+        this.velocity.y = this.lerp(this.velocity.y, 0, window.deltaTime*this.deceleration);
 
 
 
@@ -85,12 +98,17 @@ export class SimpleCanvasGameEngine {
         setInterval(this.updateAllGameObjects.bind(this), this.targetFrameTime)
         // this.updateAllGameObjects();
 
+        this.context.webkitImageSmoothingEnabled = false;
+        this.context.mozImageSmoothingEnabled = false;
+        this.context.msImageSmoothingEnabled = false;
+        this.context.imageSmoothingEnabled = false;
+
     }
 
 
-    Instantiate(img, positionX, positionY, width, height, component) {
+    Instantiate(img, component, positionX, positionY, width, height, scaleX, scaleY) {
 
-        var gameObject = new GameObject(img, positionX, positionY, width, height, component);
+        var gameObject = new GameObject(img, component, positionX, positionY, width, height,scaleX, scaleY);
 
         this.gameObjects.push(gameObject);
 
@@ -107,6 +125,7 @@ export class SimpleCanvasGameEngine {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         var gameObjects = this.gameObjects;
+
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
             if (obj.component != null)
@@ -117,7 +136,12 @@ export class SimpleCanvasGameEngine {
 
             obj.rigidbody.Update();
             this.context.globalAlpha = obj.renderer.opacity;
-            this.context.drawImage(obj.img, obj.transform.position.x, obj.transform.position.y, obj.transform.scale.x, obj.transform.scale.y);
+            var transform  =obj.transform;
+            var scale = obj.transform.scale;
+    
+            var offsetX = transform.pivot.x*transform.width*scale.x;
+            var offsetY = transform.pivot.y*transform.height*scale.y;
+            this.context.drawImage(obj.img, transform.position.x-offsetX, transform.position.y-offsetY, transform.width * transform.scale.x, transform.height * transform.scale.y);
             this.context.globalAlpha = 1;
         }
         this._lastUpdateTime = now;
