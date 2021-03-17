@@ -3,11 +3,11 @@ var simpleCanvasGameEngineUpdate = null;
 
 export class SimpleCanvasGameEngine {
 
-    
-    constructor(framerate = 30, canvasElementName="") {
+
+    constructor(framerate = 30, canvasElementName = "") {
         console.log('Iniciando Simple Canvas ENgine:' + canvasElementName);
 
-        if(canvasElementName == "") {
+        if (canvasElementName == "") {
             this.canvas = this.CreateFullCanvas();
         } else {
             this.canvas = document.getElementById(canvasElementName);
@@ -17,9 +17,11 @@ export class SimpleCanvasGameEngine {
         this.gameObjects = [];
         this.GameObject = GameObject;
         this.targetFrameTime = 1000 / framerate;
-       // this.targetFrameTime =this.targetFrameTime.toFixed();
+        // this.targetFrameTime =this.targetFrameTime.toFixed();
         console.log(this.targetFrameTime);
-        window.deltaTime = 0.0306;
+        window.deltaTime = 1 / framerate;
+        console.log(this.targetFrameTime + " -> " + window.deltaTime);
+
         this._lastUpdateTime = Date.now();
         this.coroutine = null;
         simpleCanvasGameEngineUpdate = setInterval(this.updateAllGameObjects.bind(this), this.targetFrameTime)
@@ -44,21 +46,21 @@ export class SimpleCanvasGameEngine {
         return canvas;
     }
 
-    static Instantiate(img, component, positionX, positionY, width=100, height=100, scaleX=1, scaleY=1) {
-        if(simpleCanvasGameEngine == null){
+    static Instantiate(img, component, positionX, positionY, width = 100, height = 100, scaleX = 1, scaleY = 1) {
+        if (simpleCanvasGameEngine == null) {
             simpleCanvasGameEngine = new SimpleCanvasGameEngine(60);
         }
         return simpleCanvasGameEngine.Instantiate(img, component, positionX, positionY, width, height, scaleX, scaleY);
     }
 
-    static KillInstance(){
+    static KillInstance() {
         clearInterval(simpleCanvasGameEngineUpdate);
         //simpleCanvasGameEngine=null;
     }
-    
+
     Instantiate(img, component, positionX, positionY, width, height, scaleX, scaleY) {
 
-        var gameObject = new GameObject(img, component, positionX, positionY, width, height, scaleX=1, scaleY=1);
+        var gameObject = new GameObject(img, component, positionX, positionY, width, height, scaleX = 1, scaleY = 1);
         gameObject.component.destroy = this.destroyGameObject.bind(this);
         this.gameObjects.push(gameObject);
 
@@ -69,10 +71,10 @@ export class SimpleCanvasGameEngine {
     }
 
     destroyGameObject(object) {
-        for(var i=0; i<this.gameObjects.length; i++){
-            if(this.gameObjects[i] == object){
+        for (var i = 0; i < this.gameObjects.length; i++) {
+            if (this.gameObjects[i] == object) {
                 delete this.gameObjects[i];
-                this.gameObject = this.gameObjects.splice(i,1);                
+                this.gameObject = this.gameObjects.splice(i, 1);
                 return;
             }
         }
@@ -83,33 +85,31 @@ export class SimpleCanvasGameEngine {
         window.deltaTime = (now - this._lastUpdateTime) / 1000;
         var gameObjects = this.gameObjects;
 
-        if(gameObjects.length>0){
+        if (gameObjects.length > 0) {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        } else {
-            return;
-        }
 
 
-        for (var i = 0; i < gameObjects.length; i++) {
-            var obj = gameObjects[i];
+            for (var i = 0; i < gameObjects.length; i++) {
+                var obj = gameObjects[i];
 
-            
-            obj.rigidbody.Update();
 
-            if (obj.component != null)
-                obj.component.Update();
+                obj.rigidbody.Update();
 
-            if (obj.coroutine != null)
-                obj.coroutine();
+                if (obj.component != null)
+                    obj.component.Update();
 
-            this.context.globalAlpha = obj.renderer.opacity;
-            var transform  =obj.transform;
-            var scale = obj.transform.scale;
-    
-            var offsetX = transform.pivot.x*transform.width*scale.x;
-            var offsetY = transform.pivot.y*transform.height*scale.y;
-            this.context.drawImage(obj.img, transform.position.x-offsetX, transform.position.y-offsetY, transform.width * transform.scale.x, transform.height * transform.scale.y);
-            this.context.globalAlpha = 1;
+                if (obj.coroutine != null)
+                    obj.coroutine();
+
+                this.context.globalAlpha = obj.renderer.opacity;
+                var transform = obj.transform;
+                var scale = obj.transform.scale;
+
+                var offsetX = transform.pivot.x * transform.width * scale.x;
+                var offsetY = transform.pivot.y * transform.height * scale.y;
+                this.context.drawImage(obj.img, transform.position.x - offsetX, transform.position.y - offsetY, transform.width * transform.scale.x, transform.height * transform.scale.y);
+                this.context.globalAlpha = 1;
+            }
         }
         this._lastUpdateTime = now;
     }
@@ -119,7 +119,7 @@ export class SimpleCanvasGameEngine {
 
 
 class GameObject {
-    constructor(img, component, positionX, positionY, width=100, height=100, scaleX=1, scaleY=1, pivotX=0.5, pivotY=0.5) {
+    constructor(img, component, positionX, positionY, width = 100, height = 100, scaleX = 1, scaleY = 1, pivotX = 0.5, pivotY = 0.5) {
         this.img = img;
         this.transform = {
             position: {
@@ -147,7 +147,7 @@ class GameObject {
         this.rigidbody.transform = this.transform;
         this.component.gameObject = this;
         this.component.rigidbody = this.rigidbody;
-  
+
     }
 
 }
@@ -178,15 +178,15 @@ class Rigidbody {
 
         var velocity = this.velocity;
 
-        if(Number.isNaN(velocity.x)|| velocity.x === undefined)
-            this.velocity.x=0;
-        if(Number.isNaN(this.velocity.y)|| velocity.y === undefined)
-            this.velocity.y=0;
+        if (Number.isNaN(velocity.x) || velocity.x === undefined)
+            this.velocity.x = 0;
+        if (Number.isNaN(velocity.y) || velocity.y === undefined)
+            this.velocity.y = 0;
 
-        this.transform.position.x += velocity.x*window.deltaTime;
-        this.transform.position.y += velocity.y*window.deltaTime;
-        velocity.x = this.lerp(velocity.x, 0, window.deltaTime*this.deceleration);
-        velocity.y = this.lerp(velocity.y, 0, window.deltaTime*this.deceleration);
+        this.transform.position.x += velocity.x * window.deltaTime;
+        this.transform.position.y += velocity.y * window.deltaTime;
+        velocity.x = this.lerp(velocity.x, 0, window.deltaTime * this.deceleration);
+        velocity.y = this.lerp(velocity.y, 0, window.deltaTime * this.deceleration);
     }
 
     lerp(start, end, amt) {

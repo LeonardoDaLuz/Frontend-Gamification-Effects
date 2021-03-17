@@ -46,7 +46,7 @@ function puff(event, numberOfParticles=20) {
         size,
         size
     );
-    setTimeout(() => event.target.style="opacity: 0;", 200);
+    setTimeout(() => event.target.style="opacity: 0;   pointer-events: none;", 200);
     for (var i = 0; i < numberOfParticles*0.5; i++) {
         var size = Mathf.RandomRange(50, 100);
         setTimeout(function() {
@@ -66,6 +66,7 @@ class NuvemParticle {
 
 
         this.rigidbody.velocity.x = Mathf.RandomRange(-200, 200);
+        console.log(this.rigidbody.velocity.x);
 
         function* test() {
 
