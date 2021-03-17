@@ -7,7 +7,6 @@ window.puff = puff;
 
 function puff(event, numberOfParticles=20) {
 
-    console.log(event.target.getBoundingClientRect());
     var rect = event.target.getBoundingClientRect()
     var minPosX = rect.x;
     var minPosY = rect.y+10;
@@ -63,10 +62,7 @@ function puff(event, numberOfParticles=20) {
 
 class NuvemParticle {
     Start() {
-
-
         this.rigidbody.velocity.x = Mathf.RandomRange(-200, 200);
-        console.log(this.rigidbody.velocity.x);
 
         function* test() {
 

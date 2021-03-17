@@ -4,7 +4,6 @@ window.InstantiateScoreThatFlowsUp = InstantiateScoreThatFlowsUp;
 
 export function InstantiateScoreThatFlowsUp(event, value) {
         var rect = event.target.getBoundingClientRect();
-        console.log(rect);
         var div = document.createElement('div');
         div.innerHTML = (value>0?'+':'')+value;
         div.classList.add("scoreThatFlowsUp");
