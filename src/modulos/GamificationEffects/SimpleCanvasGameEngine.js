@@ -5,7 +5,7 @@ export class SimpleCanvasGameEngine {
 
 
     constructor(framerate = 30, canvasElementName = "") {
-        console.log('Iniciando Simple Canvas ENgine:' + canvasElementName);
+
 
         if (canvasElementName == "") {
             this.canvas = this.CreateFullCanvas();
@@ -18,9 +18,9 @@ export class SimpleCanvasGameEngine {
         this.GameObject = GameObject;
         this.targetFrameTime = 1000 / framerate;
         // this.targetFrameTime =this.targetFrameTime.toFixed();
-        console.log(this.targetFrameTime);
+
         window.deltaTime = 1 / framerate;
-        console.log(this.targetFrameTime + " -> " + window.deltaTime);
+      //  console.log(this.targetFrameTime + " -> " + window.deltaTime);
 
         this._lastUpdateTime = Date.now();
         this.coroutine = null;
@@ -35,7 +35,6 @@ export class SimpleCanvasGameEngine {
     }
 
     CreateFullCanvas() {
-        console.log('CreateFullCanvas ');
         var canvas = document.createElement("canvas");
         canvas.id = "puffCanvas2";
         canvas.classList.add('puffCanvas');
